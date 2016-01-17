@@ -1,9 +1,6 @@
 # import the twitter library
 from twitter import *
 
-# standard library
-import html
-
 
 # these tokens are necessary for user authentication
 # (created within the twitter developer API pages)
@@ -15,15 +12,18 @@ access_secret = ""
 
 
 def post_tweet(status_text, nick):
-    new_status = '<{}>: {}'.format(nick, status_text)
+    try:
+        new_status = '<{}>: {}'.format(nick, status_text)
 
-    # create twitter API object
-    auth = OAuth(access_key, access_secret, consumer_key, consumer_secret)
-    twitter = Twitter(auth=auth)
+        # create twitter API object
+        auth = OAuth(access_key, access_secret, consumer_key, consumer_secret)
+        twitter = Twitter(auth=auth)
 
-    # post a new status
-    twitter.statuses.update(status=new_status)
-    print('updated status: {}'.format(new_status))
+        # post a new status
+        twitter.statuses.update(status=new_status)
+        print('updated status: {}'.format(new_status))
+    except TwitterHTTPError as e:
+        print(e)
 
 
 def get_latest_tweet():
